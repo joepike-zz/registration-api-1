@@ -1,10 +1,11 @@
+from application import app, db
+from application.models import User
 
-import os
 
-from app import create_app
+@app.shell_context_processor
+def make_shell_context():
+    return {'db': db, 'User': User}
 
-config_name = os.getenv('APP_SETTINGS')
-app = create_app(config_name)
 
 if __name__ == '__main__':
     app.run()
