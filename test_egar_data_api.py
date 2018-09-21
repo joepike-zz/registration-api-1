@@ -18,9 +18,19 @@ class UserRegistrationTestCase(unittest.TestCase):
 
     def test_userregistration(self):
         """Test API can create a registered user (POST request)"""
-        res = self.client.post('/userregistration/', data=self.user_registration)
+        res = self.client.post('/user/', data=self.user_registration)
         self.assertEqual(res.status_code, 201)
         self.assertIn('Joe', str(res.data))
+
+    def test_userregistration(self):
+        """Test API can create a registered user (POST request)"""
+        res = self.client.post('/user/', data=self.user_registration)
+        self.assertEqual(res.status_code, 201)
+        self.assertIn('Joe', str(res.data))
+
+    def test_login(self):
+        """Test API can log a user in (GET request)"""
+        res = self.client.get('/')
 
     def tearDown(self):
         """teardown initialized variables"""
