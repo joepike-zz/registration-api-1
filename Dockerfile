@@ -9,7 +9,10 @@ RUN apt-get update && \
     python3-dev \
     libmemcached11 \
     libmemcached-dev \
+    apt-utils \
     postgresql-client
-RUN pip install --upgrade pdbpp && pip install -r requirements.txt
+RUN pip install --upgrade pip && \
+    pip install --upgrade pdbpp && \
+    pip install -r requirements.txt
 
 ADD . /code/
