@@ -2,7 +2,7 @@
 
 ## Clone this repo
 ```bash
-git clone x
+git clone https://github.com/joepike/registration-api-1.git
 ```
 
 ## Create an environment file
