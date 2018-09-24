@@ -1,4 +1,4 @@
-import os
+import ast, os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -8,9 +8,9 @@ class Base:
     Base configuration settings.
     """
 
-    DEBUG = os.getenv('DEBUG')
+    DEBUG = ast.literal_eval(os.getenv('DEBUG'))
     SECRET_KEY = os.getenv('SECRET_KEY')
-    SQLALCHEMY_TRACK_MODIFICATIONS = True
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     DBUSER = os.getenv('DBUSER')
     DBPASSWORD = os.getenv('DBPASSWORD')
     DBHOST = os.getenv('DBHOST')
