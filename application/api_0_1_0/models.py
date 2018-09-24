@@ -9,7 +9,7 @@ class User(db.Model):
     username = db.Column(db.String(100), index=True, unique=True)
     first_name = db.Column(db.String(50))
     last_name = db.Column(db.String(50))
-    password_hash = db.Column(db.String(130))
+    password = db.Column(db.String(130))
     organisation = db.Column(db.String(100))
     date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
     date_modified = db.Column(
@@ -20,8 +20,3 @@ class User(db.Model):
 
     def __repr__(self):
         return '<User - {username} - {email}'.format(**self.__dict__)
-
-    # TODO: move code into a services.py module
-    def save(self):
-        db.session.add(self)
-        db.session.commit()
