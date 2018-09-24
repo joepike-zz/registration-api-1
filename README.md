@@ -28,7 +28,7 @@ DBNAME=egar
 docker-compose up --build
 ```
 
-## Running migrations
+## Initialize database (optional)
 Make sure docker compose is up and running (if not, please run it).
 To go into the `api` container execute:
 ```bash
@@ -36,10 +36,17 @@ docker-compose run --rm <container_name> bash
 ```
 Once in the container execute:
 ```bash
-flask db upgrade
+flask db init
 ```
 
-## Creating migrations
+## Creating and running migrations
+Go into the `api` container and execute:
+```bash
+flask db migrate  # creates migration file
+flask db upgrade  # run migration
+```
+
+## Creating migration files update
 
 Make sure docker compose is up and running (if not, please run it).
 To go into the `api` container execute:
