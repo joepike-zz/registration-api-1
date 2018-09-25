@@ -13,6 +13,13 @@ class Base:
     TESTING = ast.literal_eval(os.getenv('TESTING'))
     SECRET_KEY = os.getenv('SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+
+class ProductionConfig(Base):
+    """
+    Production configuration settings.
+    """
+
     DBUSER = os.getenv('DBUSER')
     DBPASSWORD = os.getenv('DBPASSWORD')
     DBHOST = os.getenv('DBHOST')
@@ -25,25 +32,21 @@ class Base:
     )
 
 
-class ProductionConfig(Base):
-    """
-    Production configuration settings.
-    """
-
-    pass
-
-
 class DevelopmentConfig(Base):
     """
     Development configuration settings.
     """
 
-    pass
+    SQLALCHEMY_DATABASE_URI = 'postgresql://user:test@database/egar'
 
 
 class TestingConfig(Base):
+    """
+    Testing configuration settings.
+    """
+
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'tests.db')
+    SQLALCHEMY_DATABASE_URI = 'postgresql://user:test@test_database/test_egar'
 
 
 config = {
