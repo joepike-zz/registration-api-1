@@ -6,6 +6,7 @@ registration_parser = reqparse.RequestParser()
 create_verification_parser = reqparse.RequestParser()
 update_verification_parser = reqparse.RequestParser()
 login_parser = reqparse.RequestParser()
+logout_parser = reqparse.RequestParser()
 
 # register user validation parser
 registration_parser.add_argument(
@@ -81,4 +82,10 @@ login_parser.add_argument(
 login_parser.add_argument(
     'loginDate',
     help='This field is required',
+)
+
+logout_parser.add_argument(
+    'logoutDate',
+    help='This field is required',
+    required=True
 )

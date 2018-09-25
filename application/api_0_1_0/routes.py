@@ -5,6 +5,7 @@ from .services import UserService, UserSessionService
 from .validation import (
     create_verification_parser,
     login_parser,
+    logout_parser,
     registration_parser,
     update_verification_parser
 )
@@ -37,22 +38,43 @@ class UserLoginResource(Resource):
     """
 
     def post(self, uuid):
+        user_service = UserService()
         service = UserSessionService()
         data = login_parser.parse_args()
 
-        # user.state = verified
-        return {'lastLoginDateTime': user.last_login_datetime}
+        user = user_service.filter_by_uuid(uuid)
+
+        if user is None:
+            return {'message': 'User not registered'}
+
+        service.record_login(user, data)
+
+        # TODO: needs to return the number of failed login attempts
+        # since the last successful login
+        return {}, 201
 
 
 class UserLogoutResource(Resource):
     """
-    Resource to logout a user.
-
-    API updates the last login time.
+    User Logout Resource.
     """
 
-    def post(self, uuid):
-        pass
+    def put(self, uuid):
+        """
+        Find the latest user session where the logout
+        date is empty and update the logout date
+        """
+        user_service = UserService()
+        service = UserSessionService()
+        data = logout_parser.parse_args()
+
+        user = user_service.filter_by_uuid(uuid)
+
+        if user is None:
+            return {'message': 'User not registered'}
+
+        service.update_login(user, data)
+        return {}, 200
 
 
 class UserCreateVerificationResource(Resource):
