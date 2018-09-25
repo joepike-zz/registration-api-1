@@ -13,7 +13,9 @@ class User(db.Model):
     last_name = db.Column(db.String(50))
     password = db.Column(db.String(130))
     uuid = db.Column(db.String(130), unique=True)
+    state = db.Column(db.String(30))
     email_sent = db.Column(db.Boolean, default=False)
+    email_sent_date = db.Column(db.DateTime, nullable=True)
     date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
     last_updated = db.Column(
         db.DateTime,
@@ -27,21 +29,19 @@ class User(db.Model):
     )
 
     def __repr__(self):
-        return '<User - {email}>'.format(**self.__dict__)
+        return '<User: {email} account: {state}>'.format(**self.__dict__)
 
 
 class UserSession(db.Model):
     __tablename__ = 'usersession'
 
     id = db.Column(db.Integer, primary_key=True)
-    uuid = db.Column(db.String(130), unique=True)
+    uuid = db.Column(db.String(130))
     login_date = db.Column(db.DateTime, nullable=True)
     logout_date = db.Column(db.DateTime, nullable=True)
-    issued_date = db.Column(db.DateTime, nullable=True)
     failed_login_attempts_since_last_login = db.Column(db.Integer)
-    state = db.Column(db.String(30))
     login_state = db.Column(db.String(30))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __repr__(self):
-        return '<UserSession - {id}, {state}>'.format(**self.__dict__)
+        return '<UserSession: {uuid}>'.format(**self.__dict__)

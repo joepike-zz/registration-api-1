@@ -27,11 +27,25 @@ class UserService:
         return user
 
     @staticmethod
+    def create_verification(user, data):
+        user.state = data['state']
+        user.email_sent_date = data['issuedTimestamp']
+        user.email_sent = True
+        db.session.commit()
+        return user
+
+    @staticmethod
     def filter_by_uuid(uuid):
         """
         Return a user object filtered by uuid.
         """
         return User.query.filter_by(uuid=uuid).first()
+
+    @staticmethod
+    def update_verification(user, data):
+        user.state = data['state']
+        db.session.commit()
+        return user
 
     @staticmethod
     def verify_auth_token(username_or_token):
@@ -43,23 +57,7 @@ class UserSessionService:
     def filter_by_uuid(uuid):
         return UserSession.query.filter_by(uuid=uuid).first()
 
-    @staticmethod
-    def create_verification(user, data):
-        user_session = UserSession(
-            user_id=user.id,
-            uuid=user.uuid,
-            state=data['state'],
-            issued_date=data['issuedTimestamp']
-        )
-        db.session.add(user_session)
-        db.session.commit()
-        return user_session
-
-    @staticmethod
-    def update_verification(session, data):
-        session.state = data['state']
-        db.session.commit()
-        return session
+    
 
     # @staticmethod
     # def record_login(data):

@@ -57,29 +57,28 @@ class UserLogoutResource(Resource):
 
 class UserCreateVerificationResource(Resource):
     def post(self, uuid):
-        user_service = UserService()
-        session_service = UserSessionService()
-        user = user_service.filter_by_uuid(uuid)
+        service = UserService()
+        user = service.filter_by_uuid(uuid)
 
         if user is None:
             return {'message': 'User not registered'}
 
         data = create_verification_parser.parse_args()
-        session_service.create_verification(user, data)
+        service.create_verification(user, data)
         return {}, 201
 
 
 class UserUpdateVerificationResource(Resource):
     def put(self, uuid):
-        service = UserSessionService()
-        user_session = service.filter_by_uuid(uuid)
+        service = UserService()
+        user = service.filter_by_uuid(uuid)
 
-        if user_session is None:
-            return {'message': 'User session does not exist'}
+        if user is None:
+            return {'message': 'User does not exist'}
 
         data = update_verification_parser.parse_args()
-        session = service.update_verification(user_session, data)
-        return {'tokenId': session.uuid, 'state': session.state}
+        user = service.update_verification(user, data)
+        return {'tokenId': user.uuid, 'state': user.state}
 
 
 class UserResource(Resource):

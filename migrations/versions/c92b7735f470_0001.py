@@ -1,8 +1,8 @@
 """0001
 
-Revision ID: 56e38597b775
+Revision ID: c92b7735f470
 Revises: 
-Create Date: 2018-09-25 00:06:11.185941
+Create Date: 2018-09-25 08:11:55.357436
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '56e38597b775'
+revision = 'c92b7735f470'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,7 +25,9 @@ def upgrade():
     sa.Column('last_name', sa.String(length=50), nullable=True),
     sa.Column('password', sa.String(length=130), nullable=True),
     sa.Column('uuid', sa.String(length=130), nullable=True),
+    sa.Column('state', sa.String(length=30), nullable=True),
     sa.Column('email_sent', sa.Boolean(), nullable=True),
+    sa.Column('email_sent_date', sa.DateTime(), nullable=True),
     sa.Column('date_created', sa.DateTime(), nullable=True),
     sa.Column('last_updated', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
@@ -37,14 +39,11 @@ def upgrade():
     sa.Column('uuid', sa.String(length=130), nullable=True),
     sa.Column('login_date', sa.DateTime(), nullable=True),
     sa.Column('logout_date', sa.DateTime(), nullable=True),
-    sa.Column('issued_date', sa.DateTime(), nullable=True),
     sa.Column('failed_login_attempts_since_last_login', sa.Integer(), nullable=True),
-    sa.Column('state', sa.String(length=30), nullable=True),
     sa.Column('login_state', sa.String(length=30), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
-    sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('uuid')
+    sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
 
