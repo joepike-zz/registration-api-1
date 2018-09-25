@@ -1,6 +1,5 @@
 from flask_restful import Resource
 
-from .serializers import user_detail_schema
 from .services import UserService, UserSessionService
 from .validation import (
     create_verification_parser,
@@ -23,7 +22,7 @@ class UserCreationResource(Resource):
 
         # check if the user already exists
         if user is not None:
-            return {'message': 'User already registered'}
+            return {'message': 'User already registered'}, 400
 
         new_user = service.create_user(data)
         return {'tokenId': new_user.uuid}, 201
@@ -45,7 +44,7 @@ class UserLoginResource(Resource):
         user = user_service.filter_by_uuid(uuid)
 
         if user is None:
-            return {'message': 'User not registered'}
+            return {'message': 'User not registered'}, 400
 
         service.record_login(user, data)
 
@@ -71,10 +70,10 @@ class UserLogoutResource(Resource):
         user = user_service.filter_by_uuid(uuid)
 
         if user is None:
-            return {'message': 'User not registered'}
+            return {'message': 'User not registered'}, 400
 
         service.update_login(user, data)
-        return {}, 200
+        return {}, 201
 
 
 class UserCreateVerificationResource(Resource):
@@ -83,7 +82,7 @@ class UserCreateVerificationResource(Resource):
         user = service.filter_by_uuid(uuid)
 
         if user is None:
-            return {'message': 'User not registered'}
+            return {'message': 'User not registered'}, 400
 
         data = create_verification_parser.parse_args()
         service.create_verification(user, data)
@@ -96,31 +95,8 @@ class UserUpdateVerificationResource(Resource):
         user = service.filter_by_uuid(uuid)
 
         if user is None:
-            return {'message': 'User does not exist'}
+            return {'message': 'User not registered'}, 400
 
         data = update_verification_parser.parse_args()
         user = service.update_verification(user, data)
-        return {'tokenId': user.uuid, 'state': user.state}
-
-
-class UserResource(Resource):
-    """
-    Resource to retrieve, update and delete users.
-    """
-
-    def get(self, id):
-        service = UserService()
-        user = service.filter_by_id(id)
-
-        # check if user exists
-        if user is None:
-            return {'message': 'User not found'}, 404
-
-        result = user_detail_schema(user)
-        return result
-
-    def put(self):
-        pass
-
-    def delete(self):
-        pass
+        return {'tokenId': user.uuid, 'state': user.state}, 201
