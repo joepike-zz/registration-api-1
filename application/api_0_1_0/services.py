@@ -3,10 +3,14 @@ from .models import User, UserSession
 
 
 class UserService:
+
     @staticmethod
     def create_user(data):
         """
-        Create a user object.
+        Create a user.
+
+        :param data: a dict
+        :return:     a User object
         """
         user = User(
             email=data['email'],
@@ -21,6 +25,12 @@ class UserService:
 
     @staticmethod
     def create_verification(user, data):
+        """
+        Update user once the verification email is sent.
+
+        :param user: a User object
+        :param data: a dict
+        """
         user.state = data['state']
         user.email_sent_date = data['issuedTimestamp']
         user.email_sent = True
@@ -30,6 +40,9 @@ class UserService:
     def filter_by_email(email):
         """
         Return a user object filtered by email.
+
+        :param email: an email address
+        :return:      a User object
         """
         return User.query.filter_by(email=email).first()
 
@@ -37,24 +50,33 @@ class UserService:
     def filter_by_uuid(uuid):
         """
         Return a user object filtered by uuid.
+
+        :param uuid: a str representing a uuid
+        :return:     a User object
         """
         return User.query.filter_by(uuid=uuid).first()
 
     @staticmethod
     def update_verification(user, data):
+        """
+        Update user state once the user verifies the verification email.
+
+        :param user: a User object
+        :param data: a dict
+        :return:     a User object
+        """
         user.state = data['state']
         db.session.commit()
         return user
 
 
 class UserSessionService:
-    # @staticmethod
-    # def filter_by_uuid(uuid):
-    #     return UserSession.query.filter_by(uuid=uuid).first()
 
     @staticmethod
     def record_login(user, data):
         """
+        Create a new login record.
+
         :param user: a User object
         :param data: a `dict` object
         :return:     a UserSession object
@@ -73,6 +95,12 @@ class UserSessionService:
 
     @staticmethod
     def update_login(user, data):
+        """
+        Once the user logs out, update the logout date.
+
+        :param user: a User object
+        :param data: a dict
+        """
         session = UserSession.query.filter(UserSession.uuid == user.uuid)\
                                    .filter(UserSession.logout_date == None)\
                                    .first()
