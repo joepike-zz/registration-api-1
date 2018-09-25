@@ -22,3 +22,13 @@ services:
       - POSTGRES_DB=egar
     expose:
       - "5432"
+  test_database:
+    image: postgres:9.6
+    container_name: test_database
+    environment:
+      - LC_ALL=C.UTF-8
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_DB=test_egar
+    expose:
+      - "5454"
