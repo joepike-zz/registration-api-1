@@ -1,4 +1,5 @@
-import ast, os
+import ast
+import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -9,6 +10,7 @@ class Base:
     """
 
     DEBUG = ast.literal_eval(os.getenv('DEBUG'))
+    TESTING = ast.literal_eval(os.getenv('TESTING'))
     SECRET_KEY = os.getenv('SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DBUSER = os.getenv('DBUSER')
@@ -39,7 +41,13 @@ class DevelopmentConfig(Base):
     pass
 
 
+class TestingConfig(Base):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'tests.db')
+
+
 config = {
     'production': ProductionConfig,
-    'development': DevelopmentConfig
+    'development': DevelopmentConfig,
+    'testing': TestingConfig
 }

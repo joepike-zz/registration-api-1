@@ -9,7 +9,9 @@ api = Api(api_blueprint)
 from . import routes
 
 
-api.add_resource(routes.UserCreationResource, '/user')
-api.add_resource(routes.UserLoginResource, '/user/login')
-api.add_resource(routes.UserLogoutResource, '/user/logout')
-api.add_resource(routes.UserResource, '/user/<string:username>')
+api.add_resource(routes.UserCreationResource, '/users/registeruser')
+api.add_resource(routes.UserLoginResource, '/users/<string:uuid>/recorduserlogin')
+api.add_resource(routes.UserLogoutResource, '/users/<string:uuid>/updateuserlogin')
+api.add_resource(routes.UserCreateVerificationResource, '/users/<string:uuid>/createverification')
+api.add_resource(routes.UserUpdateVerificationResource, '/users/<string:uuid>/updateverification')
+api.add_resource(routes.UserResource, '/users/<int:id>')
