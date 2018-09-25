@@ -6,11 +6,11 @@ from flask_testing import TestCase
 
 from application import create_app
 from application.extensions import db
-from application.api_0_1_0.models import User
-from application.api_0_1_0.services import UserService
+from application.api_0_1_0.models import User, UserSession
+from application.api_0_1_0.services import UserService, UserSessionService
 
 
-class TestServices(TestCase):
+class TestUserService(TestCase):
     def create_app(self):
         return create_app('testing')
 
@@ -118,5 +118,81 @@ class TestServices(TestCase):
         service.update_verification(user, data)
 
         self.assertEqual(user.state, 'Verified')
+
+
+class TestUserSessionService(TestCase):
+    def create_app(self):
+        return create_app('testing')
+
+    def setUp(self):
+        db.create_all()
+        self.data1 = {
+            'email': 'json.adams@mail.com',
+            'firstName': 'Jason',
+            'lastName': 'Adams',
+            'password': 'super123',
+            'tokenId': 'b3309c34-c055-11e8-a2eb-0242ac120003',
+        }
+        user1 = User(
+            email=self.data1['email'],
+            first_name=self.data1['firstName'],
+            last_name=self.data1['lastName'],
+            password=self.data1['password'],
+            uuid=self.data1['tokenId']
+        )
+        db.session.add(user1)
+        db.session.commit()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+
+    def test_record_login(self):
+        data = {
+            "tokenId": "b3309c34-c055-11e8-a2eb-0242ac120003",
+            "loginState": "success",
+            "loginDate": "2018-09-24 20:33:20"
+        }
+        service = UserSessionService()
+        user_service = UserService()
+
+        # checks that user session has no recorded logins
+        user_sessions = UserSession.query.all()
+        self.assertEqual(user_sessions, [])
+
+        user = user_service.filter_by_uuid(self.data1['tokenId'])
+        service.record_login(user, data)
+
+        user_session = UserSession.query.first()
+        login_date_object = datetime.strptime(data['loginDate'], '%Y-%m-%d %H:%M:%S')
+
+        self.assertEqual(user_session.uuid, user.uuid)
+        self.assertEqual(user_session.login_state, data['loginState'])
+        self.assertEqual(user_session.login_date, login_date_object)
+
+    def test_update_login(self):
+        data = {
+            "tokenId": "b3309c34-c055-11e8-a2eb-0242ac120003",
+            "loginState": "success",
+            "loginDate": "2018-09-24 20:33:20"
+        }
+        service = UserSessionService()
+        user_service = UserService()
+
+        # create a login
+        user = user_service.filter_by_uuid(self.data1['tokenId'])
+        service.record_login(user, data)
+
+        # make sure logout date is None
+        user_session = UserSession.query.first()
+        self.assertTrue(user_session.logout_date is None)
+
+        # update login with logout date
+        service.update_login(user, {"logoutDate": "2018-09-25 10:33:20"})
+        user_session = UserSession.query.first()
+        logout_date_obj = datetime.strptime("2018-09-25 10:33:20", '%Y-%m-%d %H:%M:%S')
+
+        self.assertEqual(user_session.logout_date, logout_date_obj)
+
 if __name__ == '__main__':
     unittest.main()

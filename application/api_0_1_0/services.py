@@ -79,7 +79,6 @@ class UserSessionService:
 
         :param user: a User object
         :param data: a `dict` object
-        :return:     a UserSession object
         """
         # TODO: needs to return the number of failed login attempts
         # since the last successful login
@@ -91,7 +90,6 @@ class UserSessionService:
         )
         db.session.add(user_session)
         db.session.commit()
-        return user_session
 
     @staticmethod
     def update_login(user, data):
