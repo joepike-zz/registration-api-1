@@ -15,5 +15,7 @@ done
 # postgres is now accepting connections
 >&2 echo "Postgres is up - executing command"
 
+# ensure migrations are run
+flask db upgrade
 # start flask app
 python run.py
