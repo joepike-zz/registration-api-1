@@ -1,17 +1,15 @@
-FROM python:3
-ENV PYTHONUNBUFFERED 1
+FROM python:3.7
+
+
 ENV PYTHONUNBUFFERED 1
 ENV FLASK_APP=${FLASK_APP}
 ENV FLASK_ENV=${FLASK_ENV}
 ENV FLASK_DEBUG=${FLASK_DEBUG}
 ENV FLASK_TESTING=${FLASK_TESTING}
+ENV DBHOST=${DBHOST}
+ENV DBNAME=${DBNAME}
 ENV DBUSER=${DBUSER}
-RUN mkdir /code
-RUN adduser -D -u 1000 flaskuser
-RUN chown -R flaskuser /code
-USER 1000
-WORKDIR /code
-ADD requirements.txt /code/
+ENV DBPASSWORD=${DBPASSWORD}
 
 RUN apt-get update && \
     apt-get -y install --no-install-recommends \
@@ -20,8 +18,18 @@ RUN apt-get update && \
     libmemcached-dev \
     apt-utils \
     postgresql-client
+
+COPY ./src /code
+ADD requirements.txt /requirements.txt
+
 RUN pip install --upgrade pip && \
     pip install --upgrade pdbpp && \
-    pip install -r requirements.txt
+    pip install -r /requirements.txt
 
-ADD . /code/
+RUN adduser --disabled-password -u 1000 flaskuser
+RUN chown -R flaskuser /code
+USER 1000
+
+WORKDIR /code
+
+ENTRYPOINT [ "/code/wait-for-it.sh" ]

@@ -1,13 +1,8 @@
 #!/bin/bash
 
 set -e
-host="$1"      # database
-user="$2"      # user
-pass="$3"      # test
-database="$4"  # egar
-shift
 
-until PGPASSWORD="$pass" psql -h "$host" -U "$user" "$database" -c '\q'; do
+until PGPASSWORD="$DBPASSWORD" psql -h "$DBHOST" -U "$DBUSER" "$DBNAME" -c '\q'; do
     >&2 echo "Postgres is unavailable - sleeping"
     sleep 1
 done
@@ -18,4 +13,4 @@ done
 # ensure migrations are run
 flask db upgrade
 # start flask app
-python run.py
+python ./run.py
