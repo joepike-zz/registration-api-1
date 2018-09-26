@@ -1,6 +1,9 @@
 FROM python:3
 ENV PYTHONUNBUFFERED 1
 RUN mkdir /code
+RUN adduser -D -u 1000 flaskuser
+RUN chown -R flaskuser /code
+USER 1000
 WORKDIR /code
 ADD requirements.txt /code/
 
