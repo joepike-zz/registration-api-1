@@ -7,7 +7,7 @@ git clone https://github.com/joepike/registration-api-1.git
 
 ## Create an environment file
 ```bash
-touch .flaskenv
+touch .env
 ```
 
 ## Add required environment variable/values to `.flaskenv`
@@ -16,7 +16,6 @@ touch .flaskenv
 FLASK_APP=run.py
 ENVIRONMENT=development
 DEBUG=True
-SECRET_KEY=2sfjaADF!$%#$AFAS23r
 DBUSER=user
 DBPASSWORD=test
 DBHOST=database
