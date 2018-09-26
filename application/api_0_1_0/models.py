@@ -11,7 +11,6 @@ class User(db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     first_name = db.Column(db.String(50))
     last_name = db.Column(db.String(50))
-    password = db.Column(db.String(130))
     uuid = db.Column(db.String(130), unique=True)
     state = db.Column(db.String(30))
     email_sent = db.Column(db.Boolean, default=False)

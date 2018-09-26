@@ -11,7 +11,6 @@ class Base:
 
     DEBUG = ast.literal_eval(os.getenv('DEBUG'))
     TESTING = ast.literal_eval(os.getenv('TESTING'))
-    SECRET_KEY = os.getenv('SECRET_KEY')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 

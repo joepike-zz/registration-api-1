@@ -25,11 +25,6 @@ registration_parser.add_argument(
     required=True
 )
 registration_parser.add_argument(
-    'password',
-    help='This field is required',
-    required=True
-)
-registration_parser.add_argument(
     'tokenId',
     help='This field is required',
     required=True
