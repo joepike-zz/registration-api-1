@@ -16,7 +16,6 @@ class UserService:
             email=data['email'],
             first_name=data['firstName'],
             last_name=data['lastName'],
-            password=data['password'],
             uuid=data['tokenId']
         )
         db.session.add(user)

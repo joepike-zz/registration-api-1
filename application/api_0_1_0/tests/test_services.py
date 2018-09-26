@@ -20,28 +20,24 @@ class TestUserService(TestCase):
             'email': 'json.adams@mail.com',
             'firstName': 'Jason',
             'lastName': 'Adams',
-            'password': 'super123',
             'tokenId': 'b3309c34-c055-11e8-a2eb-0242ac120003',
         }
         self.data2 = {
             'email': 'mike.roberts@mail.com',
             'firstName': 'Mike',
             'lastName': 'Roberts',
-            'password': 'test333',
             'tokenId': 'b6603c58-c055-11e8-a2eb-0242ac070001',
         }
         user1 = User(
             email=self.data1['email'],
             first_name=self.data1['firstName'],
             last_name=self.data1['lastName'],
-            password=self.data1['password'],
             uuid=self.data1['tokenId']
         )
         user2 = User(
             email=self.data2['email'],
             first_name=self.data2['firstName'],
             last_name=self.data2['lastName'],
-            password=self.data2['password'],
             uuid=self.data2['tokenId']
         )
         db.session.add(user1)
@@ -72,7 +68,6 @@ class TestUserService(TestCase):
             'email': 'susan.felix@mail.com',
             'firstName': 'Susan',
             'lastName': 'Felix',
-            'password': 'admin123',
             'tokenId': 'b16d4104-c055-11e8-a2eb-0242ac120003',
         }
         service = UserService()
@@ -130,14 +125,12 @@ class TestUserSessionService(TestCase):
             'email': 'json.adams@mail.com',
             'firstName': 'Jason',
             'lastName': 'Adams',
-            'password': 'super123',
             'tokenId': 'b3309c34-c055-11e8-a2eb-0242ac120003',
         }
         user1 = User(
             email=self.data1['email'],
             first_name=self.data1['firstName'],
             last_name=self.data1['lastName'],
-            password=self.data1['password'],
             uuid=self.data1['tokenId']
         )
         db.session.add(user1)
