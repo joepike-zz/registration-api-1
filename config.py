@@ -9,8 +9,8 @@ class Base:
     Base configuration settings.
     """
 
-    DEBUG = ast.literal_eval(os.getenv('DEBUG'))
-    TESTING = ast.literal_eval(os.getenv('TESTING'))
+    DEBUG = ast.literal_eval(os.getenv('FLASK_DEBUG'))
+    TESTING = ast.literal_eval(os.getenv('FLASK_TESTING'))
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
