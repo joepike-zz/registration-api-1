@@ -14,8 +14,9 @@ touch .env
 ```bash
 # the variable values below only work in development mode
 FLASK_APP=run.py
-ENVIRONMENT=development
-DEBUG=True
+FLASK_ENV=development
+FLASK_DEBUG=True
+FLASK_TESTING=False
 DBUSER=user
 DBPASSWORD=test
 DBHOST=database
@@ -24,7 +25,7 @@ DBNAME=egar
 
 ## Build and start docker-compose
 ```bash
-docker-compose up --build
+./start.sh
 ```
 
 ## Initialize database (optional)
