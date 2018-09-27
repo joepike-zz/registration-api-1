@@ -9,6 +9,9 @@ docker kill database
 docker rm -v flask
 docker rm -v database
 
+# Docker create network
+docker network create flask
+
 # Start DB
 docker run -d \
     -p 5432:5432 \
