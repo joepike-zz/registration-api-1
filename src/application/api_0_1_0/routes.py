@@ -28,7 +28,7 @@ class UserCreationResource(Resource):
         new_user = service.create_user(data)
         return {'tokenId': new_user.uuid}, 201
 
-class UserGetByIdResource(Resource):
+class UserResource(Resource):
     """
     Resource to get a user.
 
@@ -42,7 +42,7 @@ class UserGetByIdResource(Resource):
         user = service.filter_by_uuid(uuid)
 
         if user is not None:
-            return {'firstName': user.firstName, 'lastName': user.firstName}, 200
+            return {'firstName': user.first_name, 'lastName': user.last_name}, 200
 
 
 class UserLoginResource(Resource):
