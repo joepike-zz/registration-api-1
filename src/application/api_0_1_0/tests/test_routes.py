@@ -48,6 +48,13 @@ class TestServices(TestCase):
         self.assertEqual(res.json['tokenId'], data['tokenId'])
         self.assertTrue('tokenId' in res.json)
 
+    def test_get_user_by_id(self):
+        res = self.client.get('/v0.1.0/users/b3309c34-c055-11e8-a2eb-0242ac120003')
+
+        self.assertEqual(result.status_code, 200)
+        self.assertTrue('firstName' in res.json)
+        self.assertTrue('lastName' in res.json)
+
     def test_user_creation_resource_with_existing_user(self):
         res = self.client.post('/v0.1.0/users/registeruser', data=self.data1)
 

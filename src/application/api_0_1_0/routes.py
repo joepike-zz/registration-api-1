@@ -6,7 +6,8 @@ from .validation import (
     login_parser,
     logout_parser,
     registration_parser,
-    update_verification_parser
+    update_verification_parser,
+    getuser_parser
 )
 
 
@@ -26,6 +27,22 @@ class UserCreationResource(Resource):
 
         new_user = service.create_user(data)
         return {'tokenId': new_user.uuid}, 201
+
+class UserGetByIdResource(Resource):
+    """
+    Resource to get a user.
+
+    The API should return user details
+    (first name, last name)
+    """
+
+    def get(self, uuid):
+        service = UserService()
+        data = getuser_parser.parse_args()
+        user = service.filter_by_uuid(uuid)
+
+        if user is not None:
+            return {'firstName': user.firstName, 'lastName': user.firstName}, 200
 
 
 class UserLoginResource(Resource):
