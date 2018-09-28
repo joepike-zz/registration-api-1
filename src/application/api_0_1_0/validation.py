@@ -7,7 +7,6 @@ create_verification_parser = reqparse.RequestParser()
 update_verification_parser = reqparse.RequestParser()
 login_parser = reqparse.RequestParser()
 logout_parser = reqparse.RequestParser()
-getuser_parser = reqparse.RequestParser()
 
 # register user validation parser
 registration_parser.add_argument(
@@ -26,12 +25,6 @@ registration_parser.add_argument(
     required=True
 )
 registration_parser.add_argument(
-    'tokenId',
-    help='This field is required',
-    required=True
-)
-
-getuser_parser.add_argument(
     'tokenId',
     help='This field is required',
     required=True

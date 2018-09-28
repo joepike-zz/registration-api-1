@@ -6,8 +6,7 @@ from .validation import (
     login_parser,
     logout_parser,
     registration_parser,
-    update_verification_parser,
-    getuser_parser
+    update_verification_parser
 )
 
 
