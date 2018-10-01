@@ -10,7 +10,7 @@ from .validation import (
 )
 
 
-class UserCreationResource(Resource):
+class UserResource(Resource):
     """
     Resource to create a user.
     """
@@ -27,23 +27,21 @@ class UserCreationResource(Resource):
         new_user = service.create_user(data)
         return {'tokenId': new_user.uuid}, 201
 
-class UserResource(Resource):
+class UserDetailResource(Resource):
     """
-    Resource to get a user.
-
-    The API should return user details
-    (first name, last name, email)
+    User detail resource (retrieve, update, delete user).
     """
 
     def get(self, uuid):
-        service = UserService()
-        user = service.filter_by_uuid(uuid)
-
-        print user
-
-        if user is not None:
-            return {'firstName': user.first_name, 'lastName': user.last_name, 'email': user.email}, 200
-
+        # service = UserService()
+        # user = service.filter_by_uuid(uuid)
+        #
+        # # what if the user does not exist?
+        # if user is None:
+        #     return {'message': 'User not found'}, 404
+        # # user found
+        # return {'firstName': user.first_name, 'lastName': user.last_name, 'email': user.email}, 200
+        pass
 
 class UserLoginResource(Resource):
     """

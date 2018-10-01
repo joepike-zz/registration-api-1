@@ -42,7 +42,7 @@ class TestServices(TestCase):
             "lastName": "Adams",
             "tokenId": "b16d4104-c055-11e8-a2eb-0242ac120003"
         }
-        res = self.client.post('/v0.1.0/users/registeruser', data=data)
+        res = self.client.post('/v0.1.0/users', data=data)
 
         self.assertEqual(res.status, '201 CREATED')
         self.assertEqual(res.json['tokenId'], data['tokenId'])
@@ -56,7 +56,7 @@ class TestServices(TestCase):
         self.assertTrue('lastName' in res.json)
 
     def test_user_creation_resource_with_existing_user(self):
-        res = self.client.post('/v0.1.0/users/registeruser', data=self.data1)
+        res = self.client.post('/v0.1.0/users', data=self.data1)
 
         self.assertEqual(res.status, '400 BAD REQUEST')
         self.assertEqual(res.json['message'], 'User already registered')
