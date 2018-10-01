@@ -33,15 +33,16 @@ class UserDetailResource(Resource):
     """
 
     def get(self, uuid):
-        # service = UserService()
-        # user = service.filter_by_uuid(uuid)
-        #
-        # # what if the user does not exist?
-        # if user is None:
-        #     return {'message': 'User not found'}, 404
-        # # user found
-        # return {'firstName': user.first_name, 'lastName': user.last_name, 'email': user.email}, 200
-        pass
+
+        service = UserService()
+        user = service.filter_by_uuid(uuid)
+
+        # what if the user does not exist?
+        if user is None:
+            return {'message': 'User not found'}, 404
+        # user found
+        return {'firstName': user.first_name, 'lastName': user.last_name, 'email': user.email}, 200
+        # pass
 
 class UserLoginResource(Resource):
     """
