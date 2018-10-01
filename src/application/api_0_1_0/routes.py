@@ -32,16 +32,17 @@ class UserResource(Resource):
     Resource to get a user.
 
     The API should return user details
-    (first name, last name)
+    (first name, last name, email)
     """
 
     def get(self, uuid):
         service = UserService()
-        data = getuser_parser.parse_args()
         user = service.filter_by_uuid(uuid)
 
+        print user
+
         if user is not None:
-            return {'firstName': user.first_name, 'lastName': user.last_name}, 200
+            return {'firstName': user.first_name, 'lastName': user.last_name, 'email': user.email}, 200
 
 
 class UserLoginResource(Resource):
