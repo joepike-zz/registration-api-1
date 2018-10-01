@@ -5,7 +5,7 @@ services:
     container_name: api
     env_file:
       - .env
-    command: ["./wait-for-it.sh", "database", "user", "test", "egar"]
+    command: ["./wait-for-it.sh"]
     volumes:
       - .:/code
     depends_on:
@@ -13,7 +13,7 @@ services:
     ports:
       - "5000:5000"
   database:
-    image: postgres:9.6
+    image: postgres:10.4
     container_name: database
     environment:
       - LC_ALL=C.UTF-8
@@ -23,7 +23,7 @@ services:
     expose:
       - "5432"
   test_database:
-    image: postgres:9.6
+    image: postgres:10.4
     container_name: test_database
     environment:
       - LC_ALL=C.UTF-8
