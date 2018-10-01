@@ -4,10 +4,10 @@ import unittest
 from datetime import datetime
 from flask_testing import TestCase
 
-from application import create_app
-from application.extensions import db
-from application.api_0_1_0.models import User
-from application.api_0_1_0.services import UserService
+from src import create_app
+from src.extensions import db
+from src.api_0_1_0.models import User
+from src.api_0_1_0.services import UserService
 
 
 class TestServices(TestCase):

@@ -1,11 +1,11 @@
 import os
 
-from application import create_app
-from application.extensions import db
-from application.api_0_1_0.models import User, UserSession
+from src import create_app
+from src.extensions import db
+from src.api_0_1_0.models import User, UserSession
 
 
-config_name = os.getenv('ENVIRONMENT')
+config_name = os.getenv('FLASK_ENV')
 app = create_app(config_name)
 
 

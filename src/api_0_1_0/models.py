@@ -1,7 +1,7 @@
 
 # from sqlalchemy.dialects.postgresql import UUID
 
-from application import db
+from src import db
 
 
 class User(db.Model):

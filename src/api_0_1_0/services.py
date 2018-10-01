@@ -1,4 +1,4 @@
-from application.extensions import db
+from src.extensions import db
 from .models import User, UserSession
 
 
