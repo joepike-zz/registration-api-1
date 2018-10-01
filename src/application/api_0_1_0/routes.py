@@ -27,6 +27,23 @@ class UserCreationResource(Resource):
         new_user = service.create_user(data)
         return {'tokenId': new_user.uuid}, 201
 
+class UserResource(Resource):
+    """
+    Resource to get a user.
+
+    The API should return user details
+    (first name, last name, email)
+    """
+
+    def get(self, uuid):
+        service = UserService()
+        user = service.filter_by_uuid(uuid)
+
+        print user
+
+        if user is not None:
+            return {'firstName': user.first_name, 'lastName': user.last_name, 'email': user.email}, 200
+
 
 class UserLoginResource(Resource):
     """
