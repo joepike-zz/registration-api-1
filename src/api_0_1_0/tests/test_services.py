@@ -6,8 +6,57 @@ from flask_testing import TestCase
 
 from src import create_app
 from src.extensions import db
-from src.api_0_1_0.models import User, UserSession
-from src.api_0_1_0.services import UserService, UserSessionService
+from src.api_0_1_0.models import (
+    Organisation,
+    User,
+    UserSession
+)
+from src.api_0_1_0.services import (
+    OrganisationService,
+    UserService,
+    UserSessionService
+)
+
+
+class TestOrganisationService(TestCase):
+    def create_app(self):
+        return create_app('testing')
+
+    def setUp(self):
+        db.create_all()
+        self.organisation1 = Organisation(name='Aker Systems')
+        self.user1 = User(
+            email='json.adams@mail.com',
+            first_name='Jason',
+            last_name='Adams',
+            uuid='b3309c34-c055-11e8-a2eb-0242ac120003'
+        )
+        db.session.add_all([self.organisation1, self.user1])
+        db.session.commit()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+
+    def test_create_organisation(self):
+        service = OrganisationService()
+        organisation = service.create_organisation('NASA', self.user1)
+
+        self.assertTrue(isinstance(organisation, Organisation))
+        self.assertEqual(organisation.name, 'NASA')
+        self.assertEqual(organisation.owner, self.user1)
+
+    def test_organisation_exists(self):
+        service = OrganisationService()
+        organisation = service.exists('Aker Systems')
+
+        self.assertTrue(organisation)
+
+    def test_organisation_does_not_exist(self):
+        service = OrganisationService()
+        organisation = service.exists('Tesla Motors')
+
+        self.assertFalse(organisation)
 
 
 class TestUserService(TestCase):
@@ -20,28 +69,24 @@ class TestUserService(TestCase):
             'email': 'json.adams@mail.com',
             'firstName': 'Jason',
             'lastName': 'Adams',
-            'password': 'super123',
             'tokenId': 'b3309c34-c055-11e8-a2eb-0242ac120003',
         }
         self.data2 = {
             'email': 'mike.roberts@mail.com',
             'firstName': 'Mike',
             'lastName': 'Roberts',
-            'password': 'test333',
             'tokenId': 'b6603c58-c055-11e8-a2eb-0242ac070001',
         }
         user1 = User(
             email=self.data1['email'],
             first_name=self.data1['firstName'],
             last_name=self.data1['lastName'],
-            password=self.data1['password'],
             uuid=self.data1['tokenId']
         )
         user2 = User(
             email=self.data2['email'],
             first_name=self.data2['firstName'],
             last_name=self.data2['lastName'],
-            password=self.data2['password'],
             uuid=self.data2['tokenId']
         )
         db.session.add(user1)
@@ -72,7 +117,6 @@ class TestUserService(TestCase):
             'email': 'susan.felix@mail.com',
             'firstName': 'Susan',
             'lastName': 'Felix',
-            'password': 'admin123',
             'tokenId': 'b16d4104-c055-11e8-a2eb-0242ac120003',
         }
         service = UserService()
@@ -130,14 +174,12 @@ class TestUserSessionService(TestCase):
             'email': 'json.adams@mail.com',
             'firstName': 'Jason',
             'lastName': 'Adams',
-            'password': 'super123',
             'tokenId': 'b3309c34-c055-11e8-a2eb-0242ac120003',
         }
         user1 = User(
             email=self.data1['email'],
             first_name=self.data1['firstName'],
             last_name=self.data1['lastName'],
-            password=self.data1['password'],
             uuid=self.data1['tokenId']
         )
         db.session.add(user1)
