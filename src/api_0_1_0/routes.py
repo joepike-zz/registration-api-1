@@ -15,7 +15,7 @@ from .validation import (
 )
 
 
-class Organisation(Resource):
+class OrganisationResource(Resource):
     """
     Organisation resource.
     """
@@ -31,14 +31,14 @@ class Organisation(Resource):
         org = org_service.exists(data['organisationName'])
         user = user_service.filter_by_uuid(data['keyCloakId'])
 
-        if org is not None:
+        if org:
             return {'message': 'Organisation already exists'}, 400
 
         if user is None:
             return {'message': 'User not registered'}, 400
 
         org = org_service.create_organisation(data['organisationName'], user)
-        return {'organisationName': org.name, 'owner': org.owner}
+        return {'organisationName': org.name, 'owner': org.owner.email}, 201
 
 
 class UserCreationResource(Resource):
