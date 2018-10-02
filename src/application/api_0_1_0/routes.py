@@ -1,3 +1,5 @@
+
+from flask import request
 from flask_restful import Resource
 
 from .services import UserService, UserSessionService
@@ -46,11 +48,12 @@ class UserDetailResource(Resource):
     def patch(self, uuid):
         service = UserService()
         user = service.filter_by_uuid(uuid)
+        data = request.form
 
         if user is None:
             return {'message': 'User not found'}, 404
 
-        updated_user = service.update_user()
+        updated_user = service.update_user(user, data)
         return {}, 200
 
 
