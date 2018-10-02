@@ -20,14 +20,12 @@ class TestServices(TestCase):
             'email': 'json.adams@mail.com',
             'firstName': 'Jason',
             'lastName': 'Adams',
-            'password': 'super123',
             'tokenId': 'b3309c34-c055-11e8-a2eb-0242ac120003',
         }
         user1 = User(
             email=self.data1['email'],
             first_name=self.data1['firstName'],
             last_name=self.data1['lastName'],
-            password=self.data1['password'],
             uuid=self.data1['tokenId']
         )
         db.session.add(user1)
@@ -42,7 +40,6 @@ class TestServices(TestCase):
             "email": "mike@mail.com",
             "firstName": "Mike",
             "lastName": "Adams",
-            "password": "admin123",
             "tokenId": "b16d4104-c055-11e8-a2eb-0242ac120003"
         }
         res = self.client.post('/v0.1.0/users/registeruser', data=data)
