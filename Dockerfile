@@ -24,4 +24,8 @@ RUN pip install --upgrade pip && \
     pip install --upgrade pdbpp && \
     pip install -r requirements.txt
 
+RUN adduser --disabled-password -u 1000 flaskuser
+RUN chown -R flaskuser /code
+USER 1000
+
 ADD . /code/
