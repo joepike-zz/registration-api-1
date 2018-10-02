@@ -22,18 +22,29 @@ class TestServices(TestCase):
             'lastName': 'Adams',
             'tokenId': 'b3309c34-c055-11e8-a2eb-0242ac120003',
         }
-        user1 = User(
+        self.user1 = User(
             email=self.data1['email'],
             first_name=self.data1['firstName'],
             last_name=self.data1['lastName'],
             uuid=self.data1['tokenId']
         )
-        db.session.add(user1)
+        db.session.add(self.user1)
         db.session.commit()
 
     def tearDown(self):
         db.session.remove()
         db.drop_all()
+
+    def test_organisation_creation_resource(self):
+        data = {
+            "keyCloakId": "b3309c34-c055-11e8-a2eb-0242ac120003",
+            "organisationName": "Tesla Motors"
+        }
+        res = self.client.post('/v0.1.0/organisations', data=data)
+
+        self.assertEqual(res.status, '201 CREATED')
+        self.assertEqual(res.json['organisationName'], data['organisationName'])
+        self.assertEqual(res.json['owner'], self.user1.email)
 
     def test_user_creation_resource(self):
         data = {
