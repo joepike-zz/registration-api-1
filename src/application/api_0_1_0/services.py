@@ -23,6 +23,19 @@ class UserService:
         return user
 
     @staticmethod
+    def update_user(user, data):
+        """
+        Update individual user details
+
+        :param user: a User object
+        :param data: a dict
+        """
+        for key, value in data.items():
+            setattr(user, key, value)
+
+        db.session.commit()
+
+    @staticmethod
     def create_verification(user, data):
         """
         Update user once the verification email is sent.

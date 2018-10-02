@@ -33,7 +33,6 @@ class UserDetailResource(Resource):
     """
 
     def get(self, uuid):
-
         service = UserService()
         user = service.filter_by_uuid(uuid)
 
@@ -43,6 +42,17 @@ class UserDetailResource(Resource):
         # user found
         return {'firstName': user.first_name, 'lastName': user.last_name, 'email': user.email}, 200
         # pass
+
+    def patch(self, uuid):
+        service = UserService()
+        user = service.filter_by_uuid(uuid)
+
+        if user is None:
+            return {'message': 'User not found'}, 404
+
+        updated_user = service.update_user()
+        return {}, 200
+
 
 class UserLoginResource(Resource):
     """
