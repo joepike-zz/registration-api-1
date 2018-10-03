@@ -5,6 +5,7 @@ from flask_restful import Resource
 from .services import UserService, UserSessionService
 from .validation import (
     create_verification_parser,
+    edituserdetails_parser,
     login_parser,
     logout_parser,
     registration_parser,
@@ -47,8 +48,8 @@ class UserDetailResource(Resource):
 
     def patch(self, uuid):
         service = UserService()
+        data = edituserdetails_parser.parse_args()
         user = service.filter_by_uuid(uuid)
-        data = request.form
 
         if user is None:
             return {'message': 'User not found'}, 404
