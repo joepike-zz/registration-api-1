@@ -27,23 +27,6 @@ DBNAME=egar
 docker-compose up --build
 ```
 
-## Initialize database (optional)
-Make sure docker compose is up and running (if not, please run it).
-To go into the `api` container execute:
-```bash
-docker-compose run --rm <container_name> bash
-```
-Once in the container execute:
-```bash
-flask db init
-```
-
-## Creating and running migrations
-Go into the `api` container and execute:
-```bash
-flask db migrate  # creates migration file
-flask db upgrade  # run migration
-```
 
 ## Creating migration files update
 
@@ -63,11 +46,17 @@ So far so good, but if you have 20 migrations how do you know which one is the f
 
 This said, its probably a good idea to add an index as a message when creating migrations, for example:
 ```bash
-flask db migrate -m "0001"  # adds '0001' at the end of the migration name.
+flask db migrate -m "0001"  # creates a migration appending '0001' at the end of the migration name.
 ...
 Generating /code/migrations/versions/ae11a6ca17c5_0001.py ... done 
 ```
 Now it becomes easier to spot the first migration from the second one, etc..
+
+
+## Running migrations
+```bash
+flask db upgrade  # runs migration
+```
 
 
 ## Runing tests
