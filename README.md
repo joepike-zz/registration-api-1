@@ -14,7 +14,9 @@ touch .env
 ```bash
 # the variable values below only work in development mode
 FLASK_APP=run.py
-ENVIRONMENT=development
+FLASK_ENV=development
+FLASK_DEBUG=True
+FLASK_TESTING=False
 DEBUG=True
 DBUSER=user
 DBPASSWORD=test

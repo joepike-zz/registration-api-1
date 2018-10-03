@@ -1,5 +1,28 @@
+from sqlalchemy import exists
+
 from src.extensions import db
-from .models import User, UserSession
+from .models import(
+    Organisation,
+    User,
+    UserSession,
+)
+
+
+class OrganisationService:
+
+    @staticmethod
+    def exists(name):
+        return db.session.query(
+            exists().where(Organisation.name == name)
+        ).scalar()
+
+    @staticmethod
+    def create_organisation(name, owner=None):
+
+        organisation = Organisation(name=name, owner=owner)
+        db.session.add(organisation)
+        db.session.commit()
+        return organisation
 
 
 class UserService:
@@ -16,7 +39,6 @@ class UserService:
             email=data['email'],
             first_name=data['firstName'],
             last_name=data['lastName'],
-            password=data['password'],
             uuid=data['tokenId']
         )
         db.session.add(user)
