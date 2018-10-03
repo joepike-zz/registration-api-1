@@ -1,9 +1,11 @@
 FROM python:3.7
-ENV PYTHONUNBUFFERED 1
+
 RUN mkdir /code
 WORKDIR /code
-ADD requirements.txt /code/
+COPY ./src /code
+COPY requirements.txt /code/
 
+ENV PYTHONUNBUFFERED 1
 ENV FLASK_APP=${FLASK_APP}
 ENV FLASK_ENV=${FLASK_ENV}
 ENV FLASK_DEBUG=${FLASK_DEBUG}
@@ -28,4 +30,3 @@ RUN adduser --disabled-password -u 1000 flaskuser
 RUN chown -R flaskuser /code
 USER 1000
 
-ADD . /code/
