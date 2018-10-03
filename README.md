@@ -14,7 +14,9 @@ touch .env
 ```bash
 # the variable values below only work in development mode
 FLASK_APP=run.py
-ENVIRONMENT=development
+FLASK_ENV=development
+FLASK_DEBUG=True
+FLASK_TESTING=False
 DEBUG=True
 DBUSER=user
 DBPASSWORD=test
@@ -28,7 +30,7 @@ docker-compose up --build
 ```
 
 
-## Creating migration files update
+## Creating migration files
 
 Make sure docker compose is up and running (if not, please run it).
 To go into the `api` container execute:
