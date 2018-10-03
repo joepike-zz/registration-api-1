@@ -39,7 +39,7 @@ class TestServices(TestCase):
         db.session.remove()
         db.drop_all()
 
-    def test_organisation_creation_resource(self):
+    def test_organisation_creation(self):
         data = {
             "keyCloakId": "b3309c34-c055-11e8-a2eb-0242ac120003",
             "organisationName": "Tesla Motors"
@@ -50,7 +50,7 @@ class TestServices(TestCase):
         self.assertEqual(res.json['organisationName'], data['organisationName'])
         self.assertEqual(res.json['owner'], self.user1.email)
 
-    def test_organisation_creation_resource_with_existing_organisation(self):
+    def test_organisation_already_exists(self):
         data = {
             "keyCloakId": "b3309c34-c055-11e8-a2eb-0242ac120003",
             "organisationName": "Aker Systems"
@@ -59,6 +59,16 @@ class TestServices(TestCase):
 
         self.assertEqual(res.status, '400 BAD REQUEST')
         self.assertEqual(res.json['message'], 'Organisation already exists')
+
+    def test_organisation_user_not_registered(self):
+        data = {
+            "keyCloakId": "12345-c055-11e8-a2eb-0242ac120003",
+            "organisationName": "Tesla Motors"
+        }
+        res = self.client.post('/v0.1.0/organisations', data=data)
+
+        self.assertEqual(res.status, '400 BAD REQUEST')
+        self.assertEqual(res.json['message'], 'User not registered')
 
     def test_user_creation_resource(self):
         data = {
