@@ -54,7 +54,7 @@ class UserDetailResource(Resource):
         if user is None:
             return {'message': 'User not found'}, 404
 
-        updated_user = service.update_user(user, data)
+        service.update_user(user, data)
         return {}, 200
 
 
