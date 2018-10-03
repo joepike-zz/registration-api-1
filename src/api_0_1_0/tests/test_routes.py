@@ -6,7 +6,7 @@ from flask_testing import TestCase
 
 from src import create_app
 from src.extensions import db
-from src.api_0_1_0.models import User
+from src.api_0_1_0.models import Organisation, User
 from src.api_0_1_0.services import UserService
 
 
@@ -28,7 +28,11 @@ class TestServices(TestCase):
             last_name=self.data1['lastName'],
             uuid=self.data1['tokenId']
         )
-        db.session.add(self.user1)
+        self.organisation1 = Organisation(
+            name='Aker Systems',
+            owner=self.user1
+        )
+        db.session.add_all([self.user1, self.organisation1])
         db.session.commit()
 
     def tearDown(self):
@@ -45,6 +49,16 @@ class TestServices(TestCase):
         self.assertEqual(res.status, '201 CREATED')
         self.assertEqual(res.json['organisationName'], data['organisationName'])
         self.assertEqual(res.json['owner'], self.user1.email)
+
+    def test_organisation_creation_resource_with_existing_organisation(self):
+        data = {
+            "keyCloakId": "b3309c34-c055-11e8-a2eb-0242ac120003",
+            "organisationName": "Aker Systems"
+        }
+        res = self.client.post('/v0.1.0/organisations', data=data)
+
+        self.assertEqual(res.status, '400 BAD REQUEST')
+        self.assertEqual(res.json['message'], 'Organisation already exists')
 
     def test_user_creation_resource(self):
         data = {
