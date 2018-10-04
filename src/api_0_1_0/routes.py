@@ -1,16 +1,45 @@
-
-from flask import request
 from flask_restful import Resource
 
-from .services import UserService, UserSessionService
+from .services import (
+    OrganisationService,
+    UserService,
+    UserSessionService
+)
 from .validation import (
     create_verification_parser,
     edituserdetails_parser,
     login_parser,
     logout_parser,
+    new_organisation_parser,
     registration_parser,
     update_verification_parser
 )
+
+
+class OrganisationResource(Resource):
+    """
+    Organisation resource.
+    """
+
+    def post(self):
+        """
+        Create a new organisation.
+        """
+        org_service = OrganisationService()
+        user_service = UserService()
+
+        data = new_organisation_parser.parse_args()
+        org = org_service.exists(data['organisationName'])
+        user = user_service.filter_by_uuid(data['keyCloakId'])
+
+        if org:
+            return {'message': 'Organisation already exists'}, 400
+
+        if user is None:
+            return {'message': 'User not registered'}, 400
+
+        org = org_service.create_organisation(data['organisationName'], user)
+        return {'organisationName': org.name, 'owner': org.owner.email}, 201
 
 
 class UserResource(Resource):

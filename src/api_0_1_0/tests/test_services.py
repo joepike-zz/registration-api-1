@@ -4,10 +4,59 @@ import unittest
 from datetime import datetime
 from flask_testing import TestCase
 
-from application import create_app
-from application.extensions import db
-from application.api_0_1_0.models import User, UserSession
-from application.api_0_1_0.services import UserService, UserSessionService
+from src import create_app
+from src.extensions import db
+from src.api_0_1_0.models import (
+    Organisation,
+    User,
+    UserSession
+)
+from src.api_0_1_0.services import (
+    OrganisationService,
+    UserService,
+    UserSessionService
+)
+
+
+class TestOrganisationService(TestCase):
+    def create_app(self):
+        return create_app('testing')
+
+    def setUp(self):
+        db.create_all()
+        self.organisation1 = Organisation(name='Aker Systems')
+        self.user1 = User(
+            email='json.adams@mail.com',
+            first_name='Jason',
+            last_name='Adams',
+            uuid='b3309c34-c055-11e8-a2eb-0242ac120003'
+        )
+        db.session.add_all([self.organisation1, self.user1])
+        db.session.commit()
+
+    def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+
+    def test_create_organisation(self):
+        service = OrganisationService()
+        organisation = service.create_organisation('NASA', self.user1)
+
+        self.assertTrue(isinstance(organisation, Organisation))
+        self.assertEqual(organisation.name, 'NASA')
+        self.assertEqual(organisation.owner, self.user1)
+
+    def test_organisation_exists(self):
+        service = OrganisationService()
+        organisation = service.exists('Aker Systems')
+
+        self.assertTrue(organisation)
+
+    def test_organisation_does_not_exist(self):
+        service = OrganisationService()
+        organisation = service.exists('Tesla Motors')
+
+        self.assertFalse(organisation)
 
 
 class TestUserService(TestCase):

@@ -1,7 +1,7 @@
 from flask import Flask
 
 from config import config
-from application.extensions import db, migrate
+from src.extensions import db, migrate
 from .api_0_1_0 import api_blueprint
 
 

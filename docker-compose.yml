@@ -5,8 +5,12 @@ services:
     container_name: api
     env_file:
       - .env
+<<<<<<< HEAD
     working_dir: "/code"
     command: ["./wait-for-it.sh", "database", "user", "test", "egar"]
+=======
+    command: ["./wait-for-it.sh"]
+>>>>>>> origin/v0.1.0
     volumes:
       - .:/code
     depends_on:

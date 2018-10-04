@@ -1,7 +1,23 @@
 
 # from sqlalchemy.dialects.postgresql import UUID
 
-from application import db
+from src import db
+
+
+class Organisation(db.Model):
+    __tablename__ = 'organisations'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(130), index=True, unique=True)
+    owner = db.relationship(
+        'User',
+        backref='organisation_owner',
+        uselist=False,
+        foreign_keys='User.org_owner_id'
+    )
+
+    def __repr__(self):
+        return '<Organisation: {}>'.format(self.name)
 
 
 class User(db.Model):
@@ -21,14 +37,17 @@ class User(db.Model):
         default=db.func.current_timestamp(),
         onupdate=db.func.current_timestamp()
     )
-    user_session = db.relationship(
+
+    org_owner_id = db.Column(db.Integer, db.ForeignKey('organisations.id'))
+    sessions = db.relationship(
         'UserSession',
         backref='user',
+        cascade='all, delete',
         lazy='dynamic'
     )
 
     def __repr__(self):
-        return '<User: {email} account: {state}>'.format(**self.__dict__)
+        return '<User: {}>'.format(self.email)
 
 
 class UserSession(db.Model):
@@ -43,4 +62,4 @@ class UserSession(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __repr__(self):
-        return '<UserSession: {uuid}>'.format(**self.__dict__)
+        return '<UserSession: {}>'.format(self.uuid)

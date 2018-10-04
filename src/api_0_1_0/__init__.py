@@ -15,3 +15,6 @@ api.add_resource(routes.UserLogoutResource, '/users/<string:uuid>/updateuserlogi
 api.add_resource(routes.UserCreateVerificationResource, '/users/<string:uuid>/createverification')
 api.add_resource(routes.UserUpdateVerificationResource, '/users/<string:uuid>/updateverification')
 api.add_resource(routes.UserDetailResource, '/users/<string:uuid>')
+
+# organisations
+api.add_resource(routes.OrganisationResource, '/organisations')

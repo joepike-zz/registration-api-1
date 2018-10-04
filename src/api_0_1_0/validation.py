@@ -9,23 +9,8 @@ login_parser = reqparse.RequestParser()
 logout_parser = reqparse.RequestParser()
 edituserdetails_parser = reqparse.RequestParser()
 
-edituserdetails_parser.add_argument(
-    'email',
-    help='This field is required',
-    required=False
-)
-
-edituserdetails_parser.add_argument(
-    'firstName',
-    help='This field is required',
-    required=False
-)
-
-edituserdetails_parser.add_argument(
-    'lastName',
-    help='This field is required',
-    required=False
-)
+# organisation validation parsers
+new_organisation_parser = reqparse.RequestParser()
 
 # register user validation parser
 registration_parser.add_argument(
@@ -47,6 +32,25 @@ registration_parser.add_argument(
     'tokenId',
     help='This field is required',
     required=True
+)
+
+# create edit user details validation parser
+edituserdetails_parser.add_argument(
+    'email',
+    help='This field is required',
+    required=False
+)
+
+edituserdetails_parser.add_argument(
+    'firstName',
+    help='This field is required',
+    required=False
+)
+
+edituserdetails_parser.add_argument(
+    'lastName',
+    help='This field is required',
+    required=False
 )
 
 # create verification validation parser
@@ -83,6 +87,7 @@ update_verification_parser.add_argument(
     required=True
 )
 
+# login verification parser
 login_parser.add_argument(
     'tokenId',
     help='This field is required',
@@ -100,6 +105,18 @@ login_parser.add_argument(
 
 logout_parser.add_argument(
     'logoutDate',
+    help='This field is required',
+    required=True
+)
+
+# create organisation parser
+new_organisation_parser.add_argument(
+    'keyCloakId',
+    help='This field is required',
+    required=True
+)
+new_organisation_parser.add_argument(
+    'organisationName',
     help='This field is required',
     required=True
 )
