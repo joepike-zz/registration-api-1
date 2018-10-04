@@ -11,7 +11,11 @@ done
 >&2 echo "Postgres is up - executing command"
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 # ensure migrations are run
+=======
+# run migrations
+>>>>>>> origin/v0.1.0
 =======
 # run migrations
 >>>>>>> origin/v0.1.0

@@ -42,7 +42,11 @@ class OrganisationResource(Resource):
         return {'organisationName': org.name, 'owner': org.owner.email}, 201
 
 
+<<<<<<< HEAD
 class UserResource(Resource):
+=======
+class UserCreationResource(Resource):
+>>>>>>> origin/v0.1.0
     """
     Resource to create a user.
     """

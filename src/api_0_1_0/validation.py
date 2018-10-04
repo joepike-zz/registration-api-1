@@ -12,6 +12,9 @@ edituserdetails_parser = reqparse.RequestParser()
 # organisation validation parsers
 new_organisation_parser = reqparse.RequestParser()
 
+# organisation validation parsers
+new_organisation_parser = reqparse.RequestParser()
+
 # register user validation parser
 registration_parser.add_argument(
     'email',
