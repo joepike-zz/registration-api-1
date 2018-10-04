@@ -17,7 +17,10 @@ FLASK_APP=run.py
 FLASK_ENV=development
 FLASK_DEBUG=True
 FLASK_TESTING=False
+<<<<<<< HEAD
+=======
 DEBUG=True
+>>>>>>> origin/v0.1.0
 DBUSER=user
 DBPASSWORD=test
 DBHOST=database
@@ -26,7 +29,7 @@ DBNAME=egar
 
 ## Build and start docker-compose
 ```bash
-docker-compose up --build
+./start.sh
 ```
 
 
@@ -50,7 +53,7 @@ This said, its probably a good idea to add an index as a message when creating m
 ```bash
 flask db migrate -m "0001"  # creates a migration appending '0001' at the end of the migration name.
 ...
-Generating /code/migrations/versions/ae11a6ca17c5_0001.py ... done 
+Generating /code/migrations/versions/ae11a6ca17c5_0001.py ... done
 ```
 Now it becomes easier to spot the first migration from the second one, etc..
 

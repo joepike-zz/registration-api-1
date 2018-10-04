@@ -127,6 +127,24 @@ class TestUserService(TestCase):
         self.assertTrue(new_user.state is None)
         self.assertTrue(isinstance(new_user, User))
 
+    def test_update_user(self):
+        data = {
+            'email': 'kevin.smith@mail.com',
+            'firstName': 'Kevin',
+            'lastName': 'Smith'
+        }
+        service = UserService()
+        user = service.filter_by_uuid(self.data1['tokenId'])
+
+        self.assertEqual(user.first_name, self.data1['firstName'])
+        self.assertEqual(user.last_name, self.data1['lastName'])
+
+        updated_user = service.update_user(user, data)
+
+        self.assertEqual(updated_user.email, data['email'])
+        self.assertEqual(updated_user.first_name, data['firstName'])
+        self.assertEqual(updated_user.last_name, data['lastName'])
+
     def test_create_verification(self):
         data = {
             'tokenId': 'b3309c34-c055-11e8-a2eb-0242ac120003',
@@ -156,7 +174,7 @@ class TestUserService(TestCase):
         user.email_sent_date = '2018-09-21 20:33:20'
         user.state = 'Unverified'
         db.session.commit()
-        
+
         self.assertEqual(user.state, 'Unverified')
 
         service.update_verification(user, data)
