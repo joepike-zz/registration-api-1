@@ -4,6 +4,10 @@ from src import create_app
 from src.api_0_1_0.models import Organisation, User, UserSession
 from src.extensions import db
 
+<<<<<<< HEAD:src/run.py
+
+=======
+>>>>>>> origin/v0.1.0:run.py
 config_name = os.getenv('FLASK_ENV')
 app = create_app(config_name)
 
