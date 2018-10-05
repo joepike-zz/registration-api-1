@@ -89,6 +89,21 @@ class TestServices(TestCase):
         self.assertEqual(res.status, '400 BAD REQUEST')
         self.assertEqual(res.json['message'], 'User already registered')
 
+    def test_user_get_by_id(self):
+        res = self.client.get('/v0.1.0/users/b3309c34-c055-11e8-a2eb-0242ac120003')
+
+        self.assertEqual(result.status_code, 200)
+        self.assertTrue('firstName' in res.json)
+        self.assertTrue('lastName' in res.json)
+
+    def test_user_edit_details(self):
+        data = {
+            "email": "mike@mail.com",
+            "firstName": "Mike",
+        }
+        res = self.client.patch('/v0.1.0/users/b3309c34-c055-11e8-a2eb-0242ac120003', data=data)
+        self.assertEqual(res.status_code, 200)
+
     def test_user_create_verification_resource(self):
         params = {
             "tokenId": "b3309c34-c055-11e8-a2eb-0242ac120003",

@@ -7,6 +7,7 @@ from .services import (
 )
 from .validation import (
     create_verification_parser,
+    edituserdetails_parser,
     login_parser,
     logout_parser,
     new_organisation_parser,
@@ -41,7 +42,11 @@ class OrganisationResource(Resource):
         return {'organisationName': org.name, 'owner': org.owner.email}, 201
 
 
+<<<<<<< HEAD
+class UserResource(Resource):
+=======
 class UserCreationResource(Resource):
+>>>>>>> origin/v0.1.0
     """
     Resource to create a user.
     """
@@ -57,6 +62,33 @@ class UserCreationResource(Resource):
 
         new_user = service.create_user(data)
         return {'tokenId': new_user.uuid}, 201
+
+class UserDetailResource(Resource):
+    """
+    User detail resource (retrieve, update, delete user).
+    """
+
+    def get(self, uuid):
+        service = UserService()
+        user = service.filter_by_uuid(uuid)
+
+        # what if the user does not exist?
+        if user is None:
+            return {'message': 'User not found'}, 404
+        # user found
+        return {'firstName': user.first_name, 'lastName': user.last_name, 'email': user.email}, 200
+        # pass
+
+    def patch(self, uuid):
+        service = UserService()
+        data = edituserdetails_parser.parse_args()
+        user = service.filter_by_uuid(uuid)
+
+        if user is None:
+            return {'message': 'User not found'}, 404
+
+        service.update_user(user, data)
+        return {}, 200
 
 
 class UserLoginResource(Resource):

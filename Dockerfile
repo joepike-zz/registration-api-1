@@ -1,9 +1,5 @@
 FROM python:3.7
 
-RUN mkdir /code
-WORKDIR /code
-COPY ./src /code
-COPY requirements.txt /code/
 
 ENV PYTHONUNBUFFERED 1
 ENV FLASK_APP=${FLASK_APP}
@@ -22,11 +18,18 @@ RUN apt-get update && \
     libmemcached-dev \
     apt-utils \
     postgresql-client
+
+COPY ./src /code
+ADD requirements.txt /requirements.txt
+
 RUN pip install --upgrade pip && \
     pip install --upgrade pdbpp && \
-    pip install -r requirements.txt
+    pip install -r /requirements.txt
 
 RUN adduser --disabled-password -u 1000 flaskuser
 RUN chown -R flaskuser /code
 USER 1000
 
+WORKDIR /code
+
+ENTRYPOINT [ "/code/wait-for-it.sh" ]

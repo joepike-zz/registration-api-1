@@ -7,6 +7,10 @@ create_verification_parser = reqparse.RequestParser()
 update_verification_parser = reqparse.RequestParser()
 login_parser = reqparse.RequestParser()
 logout_parser = reqparse.RequestParser()
+edituserdetails_parser = reqparse.RequestParser()
+
+# organisation validation parsers
+new_organisation_parser = reqparse.RequestParser()
 
 # organisation validation parsers
 new_organisation_parser = reqparse.RequestParser()
@@ -31,6 +35,25 @@ registration_parser.add_argument(
     'tokenId',
     help='This field is required',
     required=True
+)
+
+# create edit user details validation parser
+edituserdetails_parser.add_argument(
+    'email',
+    help='This field is required',
+    required=False
+)
+
+edituserdetails_parser.add_argument(
+    'firstName',
+    help='This field is required',
+    required=False
+)
+
+edituserdetails_parser.add_argument(
+    'lastName',
+    help='This field is required',
+    required=False
 )
 
 # create verification validation parser
